@@ -3,7 +3,8 @@ from Object.AlchemicalTriplet import AlchemicalTriplet
 from Object.AlchemicalColor import AlchemicalColor
 from Object.AlchemicalSign import AlchemicalSign
 from Object.AlchemicalSize import AlchemicalSize
-
+from Object.PotionColor import PotionColor
+from Object.PotionSign import PotionSign
 
 class AlchemicalCombinations:
 	#Takes a Potion, and Dictonary of IngredientProperties
@@ -17,16 +18,31 @@ class AlchemicalCombinations:
 		#potion results for AlchemicalTriplets
 		#if not exist in dic then create all new Triplets
 		ingredient_options_list = {}
-		for ingredient in potion_ingredients:
-			#print(ingredients_prop_dic.keys())
-			if ingredient in ingredients_prop_dic:
-				#print('IngredientMatched => ' + str(ingredient))
-				ingredient_options_list[ingredient]=self.potion_only_filter(ingredients_prop_dic[ingredient].get_alchemical_options(), potion_color, potion_sign)
-			else:
-				#print('IngredientNOTMatched => ' + str(ingredient))
-				ingredient_options_list[ingredient]=self.potion_only_filter(self.inital_alchemical_options(), potion_color, potion_sign)
+		if potion_color is not PotionColor.NEUTRAL and potion_sign is not PotionSign.NEUTRAL: 
+			for ingredient in potion_ingredients:
+				#print(ingredients_prop_dic.keys())
+				if ingredient in ingredients_prop_dic:
+					#print('IngredientMatched => ' + str(ingredient))
+					ingredient_options_list[ingredient]=self.potion_only_filter(ingredients_prop_dic[ingredient].get_alchemical_options(), potion_color, potion_sign)
+				else:
+					#print('IngredientNOTMatched => ' + str(ingredient))
+					ingredient_options_list[ingredient]=self.potion_only_filter(self.inital_alchemical_options(), potion_color, potion_sign)
+
+		else:
+			#If it exits return itself
+			for ingredient in potion_ingredients:
+				#SELF
+				if ingredient in ingredients_prop_dic:
+					print('SELF => ' + str(ingredient))
+					print('Options =>' + str(len(ingredients_prop_dic[ingredient].get_alchemical_options())))
+					ingredient_options_list[ingredient] = ingredients_prop_dic[ingredient].get_alchemical_options()
+				#ALL
+				else:
+					print('ALL => ' + str(ingredient))
+					ingredient_options_list[ingredient] = self.inital_alchemical_options()
 
 		return ingredient_options_list
+
 
 	#Filters list of AlchemicalTriplets to acceptalbe Triplets by Input Color & Sign	
 	def potion_only_filter(self, triplet_list, color, sign):
@@ -38,6 +54,8 @@ class AlchemicalCombinations:
 					#print('MATCHED')
 					filtered_alchemical_triplets.append(triplet)
 		return filtered_alchemical_triplets
+
+
 
 	#Generates all possible AlchemicalTriplets for given Sign and Color of Potion
 	#This is used when a Ingredient doesn't exist in our Dictonary yet

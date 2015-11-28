@@ -108,16 +108,22 @@ triplet_list = res[Ingredient.TOAD]
 for triplet in triplet_list:
 	for a in triplet.get_alchemicals():
 		 print('Filtered Toad Combos ' + str(a.get_color()) + ' ' + str(a.get_sign()) + ' ' + str(a.get_size()))
+print(len(res[Ingredient.TOAD]))
+print(len(res[Ingredient.FLOWER]))
 #triplet_list = res[Ingredient.FLOWER]
 #for triplet in triplet_list:
 #	for a in triplet.get_alchemicals():
 #		 print('Filtered Flower Combos ' + str(a.get_color()) + ' ' + str(a.get_sign()) + ' ' + str(a.get_size()))
 
-ip2 = IngredientProperties(Ingredient.FLOWER)
-print(str(ip2.get_name()))
-print(ip2.get_alchemical_options())
+ip = IngredientProperties(Ingredient.FLOWER)
+print(str(ip.get_name()))
+print(ip.get_alchemical_options())
 ip.set_alchemical_options(res[Ingredient.FLOWER])
-ingredient_dic[Ingredient.FLOWER] = ip2
+ingredient_dic[Ingredient.FLOWER] = ip
+
+print('TOAD LEN ' + str(len(ingredient_dic[Ingredient.TOAD].get_alchemical_options())))
+print('FLOWER LEN ' + str(len(ingredient_dic[Ingredient.FLOWER].get_alchemical_options())))
+
 
 initalTriplets = ac.inital_alchemical_options()
 print(len(initalTriplets))
@@ -128,11 +134,23 @@ print(len(ac.potion_only_filter(initalTriplets, polist.get_potion(0).get_color()
 #################
 herbtoad = Potion(Ingredient.TOAD, Ingredient.HERB, PotionColor.NEUTRAL, PotionSign.NEUTRAL)
 polist.add_potion(herbtoad)
+#ac2 = AlchemicalCombinations()
 
-res = ac.reduce_potion_alchemicals(polist.get_potion(1), ingredient_dic)
+res = ac.reduce_potion_alchemicals(herbtoad, ingredient_dic)
 print(polist.get_potion(1).get_ingredients())
 print(polist.get_potion(1).get_sign())
 print(polist.get_potion(1).get_color())
 print(res.keys())
-print('TOAD LEN: ' + str(len(res[Ingredient.TOAD])))
-print('HERB LEN: ' + str(len(res[Ingredient.HERB])))
+print('TOAD LEN RES: ' + str(len(res[Ingredient.TOAD])))
+print('HERB LEN RES: ' + str(len(res[Ingredient.HERB])))
+ip = IngredientProperties(Ingredient.TOAD)
+print(str(ip.get_name()))
+ip.set_alchemical_options(res[Ingredient.TOAD])
+ingredient_dic[Ingredient.TOAD] = ip
+
+ip = IngredientProperties(Ingredient.HERB)
+print(str(ip.get_name()))
+ip.set_alchemical_options(res[Ingredient.HERB])
+ingredient_dic[Ingredient.HERB] = ip
+print(ingredient_dic.keys())
+
