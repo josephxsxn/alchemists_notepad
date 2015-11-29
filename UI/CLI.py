@@ -97,7 +97,14 @@ class CLI:
 
 	#Return % Chances to make PotionType's with 2 Ingredients	
 	def estimate_potion_combinations(self):
-		print('not yet implemented')
+		for option in Ingredient:
+			print(str(option.name) + ' = ' + str(option.value))
+		i1 = Ingredient(int(input('Ingredient #1 Number? ')))	
+		i2 = Ingredient(int(input('Ingredient #2 Number? ')))
+
+		potionStats = PotionCombinations.generate_ingredient_potions(self.ingredient_dic[i1], self.ingredient_dic[i2])
+		for stat in potionStats:
+			print(stat)	
 
 	#return all pottible alchemical combinations for ingredient
 	def get_ingredient_alchemicals(self):
