@@ -50,7 +50,8 @@ class AlchemicalCombinations:
 		for triplet in triplet_list:
 			for alchem in triplet.get_alchemicals():
 				#print('ALCHEM COLOR => ' + str(alchem.get_color().value) + ' ' + str(color.value) + ' SIGN => ' + str(alchem.get_sign().value) + ' ' + str(sign.value))
-				if alchem.get_color().value == color.value and alchem.get_sign().value == sign.value:
+				#if alchem.get_color().value == color.value and alchem.get_sign().value == sign.value:
+				if alchem.get_color() == color and alchem.get_sign() == sign:
 					#print('MATCHED')
 					filtered_alchemical_triplets.append(triplet)
 		return filtered_alchemical_triplets

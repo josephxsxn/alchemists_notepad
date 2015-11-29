@@ -1,4 +1,4 @@
-from enum import Enum
-class AlchemicalSize(Enum):
+from enum import IntEnum
+class AlchemicalSize(IntEnum):
 	SMALL = 0
 	LARGE = 1

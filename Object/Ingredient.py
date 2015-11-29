@@ -1,5 +1,5 @@
-from enum import Enum
-class Ingredient(Enum):
+from enum import IntEnum
+class Ingredient(IntEnum):
 	MUSHROOM = 0
 	HERB = 1
 	TOAD = 2
