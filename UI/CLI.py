@@ -35,13 +35,21 @@ class CLI:
 				self.update_ingredient_dic(p)
 				print('Added Potion to PotionList')
 			elif OPTION is CLIOption.LOOKUP_POTION:
-				self.lookup_potion()
+				potion_combos = self.lookup_potion()
+				for potion in potion_combos:
+					print(str(potion.get_color()) + ' ' + str(potion.get_sign()) + ' ' + str(potion.get_ingredients()[0]) + ' ' + str(potion.get_ingredients()[1]))	
 			elif OPTION is CLIOption.DISTINCT_POTIONS:
 				self.distinct_brewed_potions()
 			elif OPTION is CLIOption.ESTIMATE_POTIONS:
 				self.estimate_potion_combinations()
 			elif OPTION is CLIOption.GET_INGREDIENT_ALCHEMICALS:
-				self.get_ingredient_alchemicals()
+				count = 0
+				for triplet in self.get_ingredient_alchemicals():
+					flavorText = '###Triplet#'+str(count)+'###'
+					for a in triplet.get_alchemicals():
+		 				print(flavorText+ ' ' + str(a.get_color()) + ' ' + str(a.get_sign()) + ' ' + str(a.get_size()))
+					count = count + 1	
+				
 			elif OPTION is CLIOption.QUIT:
 				sys.exit(0)
 
@@ -68,7 +76,19 @@ class CLI:
 	#looksup a potion type from the potion_list, 
 	#prints all know valid potion combos
 	def lookup_potion(self):
-		print('not yet implemented')
+		for option in PotionColor:
+			print(str(option) + ' = ' + str(option.value))
+		color = input('Potion Color Number? ')
+		for option in PotionSign:
+			print(str(option) + ' = ' + str(option.value))
+		sign = input('Potion Sign Number? ')
+		print('Looking up Combos for: ' + str(PotionColor(int(color))) + ' ' + str(PotionSign(int(sign))))
+		matching = []
+		for potion in self.potion_list.get_potions():
+			if potion.get_color() is PotionColor(int(color)) and potion.get_sign() is PotionSign(int(sign)):
+				matching.append(potion)
+		return matching 
+			
 
 	#List all types of Distinct Potions Ever Brewed
 	def distinct_brewed_potions(self):
