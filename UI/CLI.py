@@ -26,7 +26,7 @@ class CLI:
 		print('Select An Option From the Below List')
 		while(True):
 			for option in CLIOption:
-				print(str(option) + ' = ' + str(option.value))
+				print(str(option.name) + ' = ' + str(option.value))
 			OPTION = CLIOption(int(input("Enter a Corresponding Number: ")))
 
 			if OPTION is CLIOption.ADD_POTION:
@@ -58,14 +58,14 @@ class CLI:
 		#STDOUT Text Here
 		print('Potion Creation Wizard')
 		for option in Ingredient:
-			print(str(option) + ' = ' + str(option.value))
+			print(str(option.name) + ' = ' + str(option.value))
 		i1 = input('Ingredient #1 Number? ')	
 		i2 = input('Ingredient #2 Number? ')	
 		for option in PotionColor:
-			print(str(option) + ' = ' + str(option.value))
+			print(str(option.name) + ' = ' + str(option.value))
 		color = input('Potion Color Number? ')
 		for option in PotionSign:
-			print(str(option) + ' = ' + str(option.value))
+			print(str(option.name) + ' = ' + str(option.value))
 		sign = input('Potion Sign Number? ')
 
 		p = PotionFactory.create_potion(Ingredient(int(i1)), Ingredient(int(i2)), PotionColor(int(color)), PotionSign(int(sign)))
@@ -77,10 +77,10 @@ class CLI:
 	#prints all know valid potion combos
 	def lookup_potion(self):
 		for option in PotionColor:
-			print(str(option) + ' = ' + str(option.value))
+			print(str(option.name) + ' = ' + str(option.value))
 		color = input('Potion Color Number? ')
 		for option in PotionSign:
-			print(str(option) + ' = ' + str(option.value))
+			print(str(option.name) + ' = ' + str(option.value))
 		sign = input('Potion Sign Number? ')
 		print('Looking up Combos for: ' + str(PotionColor(int(color))) + ' ' + str(PotionSign(int(sign))))
 		matching = []
@@ -104,7 +104,10 @@ class CLI:
 		for option in Ingredient:
 			print(str(option) + ' = ' + str(option.value))
 		i1 = input('Ingredient Number? ')
-		return self.ingredient_dic[Ingredient(int(i1))].get_alchemical_options()	
+		if Ingredient(int(i1)) in self.ingredient_dic:
+			return self.ingredient_dic[Ingredient(int(i1))].get_alchemical_options()
+		else:
+			return []	
 
 	#Update Ingredient Dic with PotionResults
 	def update_ingredient_dic(self, potion):
