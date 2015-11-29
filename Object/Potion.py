@@ -13,3 +13,9 @@ class Potion:
 
 	def get_sign(self):
 		return self.sign
+
+	def to_string(self):
+		return 'Potion constructs: ' + str(self.get_ingredients()[0]) + ' ' + str(self.get_ingredients()[1]) + ' ' + str(self.get_color()) + ' ' + str(self.get_sign())
+
+	def to_hash(self):
+		return  self.get_ingredients()[0].value + self.get_ingredients()[1].value + self.get_color.value + self.get_sign.value

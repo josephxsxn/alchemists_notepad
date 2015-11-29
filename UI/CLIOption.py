@@ -1,5 +1,5 @@
 from enum import IntEnum
-class CLIOPTION(IntEnum):
+class CLIOption(IntEnum):
         ADD_POTION = 0
         LOOKUP_POTION = 1
         DISTINCT_POTIONS = 2
