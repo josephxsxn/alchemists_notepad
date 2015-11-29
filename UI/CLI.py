@@ -1,37 +1,49 @@
 from Object.Ingredient import Ingredient
-
+from Object.IngredientProperties import IngredientProperties
 from Object.PotionList import PotionList
 from Object.PotionFactory import PotionFactory
 from Object.PotionColor import PotionColor
 from Object.PotionSign import PotionSign
 
+from Routine.AlchemicalCombinations import AlchemicalCombinations
+from Routine.PotionCombinations import PotionCombinations
+
 from UI.CLIOption import CLIOption
+
+import sys
+
 class CLI:
 	
 	#Statful values for the current game
 	ingredient_dic = {}
 	potion_list = PotionList()
 
+
 	def __init__(self):
 		print('')
 	
 	def shell(self):
 		print('Select An Option From the Below List')
-		for option in CLIOption:
-			print(str(option) + ' = ' + str(option.value))
-		OPTION = CLIOption(int(input("Enter a Corresponding Number: ")))
+		while(True):
+			for option in CLIOption:
+				print(str(option) + ' = ' + str(option.value))
+			OPTION = CLIOption(int(input("Enter a Corresponding Number: ")))
 
-		if OPTION is CLIOption.ADD_POTION:
-			self.potion_list.add_potion(self.potion_wizard())
-			print('Added Potion')
-		elif OPTION is CLIOption.LOOKUP_POTION:
-			self.lookup_potion()
-		elif OPTION is CLIOption.DISTINCT_POTIONS:
-			self.distinct_brewed_potions()
-		elif OPTION is CLIOption.ESTIMATE_POTIONS:
-			self.estimate_potion_combinations()
-		elif OPTION is CLIOption.GET_INGREDIENT_ALCHEMICALS:
-			self.get_ingredient_alchemicals()
+			if OPTION is CLIOption.ADD_POTION:
+				p = self.potion_wizard()
+				self.potion_list.add_potion(p)
+				self.update_ingredient_dic(p)
+				print('Added Potion to PotionList')
+			elif OPTION is CLIOption.LOOKUP_POTION:
+				self.lookup_potion()
+			elif OPTION is CLIOption.DISTINCT_POTIONS:
+				self.distinct_brewed_potions()
+			elif OPTION is CLIOption.ESTIMATE_POTIONS:
+				self.estimate_potion_combinations()
+			elif OPTION is CLIOption.GET_INGREDIENT_ALCHEMICALS:
+				self.get_ingredient_alchemicals()
+			elif OPTION is CLIOption.QUIT:
+				sys.exit(0)
 
 	#potion creation wizard		
 	def potion_wizard(self):
@@ -57,19 +69,33 @@ class CLI:
 	#prints all know valid potion combos
 	def lookup_potion(self):
 		print('not yet implemented')
-		return None
 
 	#List all types of Distinct Potions Ever Brewed
 	def distinct_brewed_potions(self):
-		print('not yet implemented')
-		return None
+		for potion in PotionCombinations.distinct_potions_list(self.potion_list):	
+			print(str(potion.to_string() + ' #' + potion.get_hash()))
 
-	#Return % Chances to make PotionType with 2 Ingredients	
+	#Return % Chances to make PotionType's with 2 Ingredients	
 	def estimate_potion_combinations(self):
 		print('not yet implemented')
-		return None
 
 	#return all pottible alchemical combinations for ingredient
 	def get_ingredient_alchemicals(self):
-		print('not yet implemented')
-		return None
+		for option in Ingredient:
+			print(str(option) + ' = ' + str(option.value))
+		i1 = input('Ingredient Number? ')
+		return self.ingredient_dic[Ingredient(int(i1))].get_alchemical_options()	
+
+	#Update Ingredient Dic with PotionResults
+	def update_ingredient_dic(self, potion):
+		reduction = AlchemicalCombinations().reduce_potion_alchemicals(potion, self.ingredient_dic)
+		for ingredient in potion.get_ingredients():
+			#build new IP for each
+			if ingredient in self.ingredient_dic:
+				ip = self.ingredient_dic[ingredient]
+				ip.set_alchemical_options(reduction[ingredient])
+			else:
+				ip = IngredientProperties(ingredient)
+				ip.set_alchemical_options(reduction[ingredient])
+			self.ingredient_dic[ingredient] = ip
+					

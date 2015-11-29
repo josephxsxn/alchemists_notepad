@@ -5,4 +5,4 @@ class CLIOption(IntEnum):
         DISTINCT_POTIONS = 2
         ESTIMATE_POTIONS = 3
         GET_INGREDIENT_ALCHEMICALS = 4
-
+        QUIT = 99

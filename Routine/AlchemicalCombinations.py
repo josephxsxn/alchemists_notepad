@@ -8,7 +8,7 @@ from Object.PotionSign import PotionSign
 
 class AlchemicalCombinations:
 	#Takes a Potion, and Dictonary of IngredientProperties
-	#Returns simple potion only  reduction of AlchemicalTriplets for Ingredients used
+	#Returns dic of simple potion only reduction of AlchemicalTriplets for Ingredients used
 	def reduce_potion_alchemicals(self, potion, ingredients_prop_dic):
 		potion_ingredients = potion.get_ingredients()
 		potion_color = potion.get_color()
