@@ -101,7 +101,18 @@ class CLI:
 			print(str(option.name) + ' = ' + str(option.value))
 		i1 = Ingredient(int(input('Ingredient #1 Number? ')))	
 		i2 = Ingredient(int(input('Ingredient #2 Number? ')))
-
+		
+		##handling for unknown ingredients
+		if i1 not in self.ingredient_dic:
+			ip = IngredientProperties(i1)
+			ip.set_alchemical_options(AlchemicalCombinations().inital_alchemical_options())
+			self.ingredient_dic[i1] = ip
+		if i2 not in self.ingredient_dic:
+			ip = IngredientProperties(i2)
+			ip.set_alchemical_options(AlchemicalCombinations().inital_alchemical_options())
+			self.ingredient_dic[i2] = ip
+				
+		
 		potionStats = PotionCombinations.generate_ingredient_potions(self.ingredient_dic[i1], self.ingredient_dic[i2])
 		for stat in potionStats:
 			print(stat)	
