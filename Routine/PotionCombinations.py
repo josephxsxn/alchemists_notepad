@@ -61,8 +61,8 @@ class PotionCombinations:
 				print('###Known Potion###')
 				print(po.to_string())
 				return True
-			else:
-				return False
+			
+		return False
 	
 	#Takes 2 Alchemicals and sees if they make a Color together
 	#Returns the Alchemical Color and Sign 
