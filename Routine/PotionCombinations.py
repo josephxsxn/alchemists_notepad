@@ -53,7 +53,17 @@ class PotionCombinations:
 			report_tuple_list.append((pointKey, point_counts[pointKey], totalCount, point_counts[pointKey]/totalCount))		
 		return report_tuple_list
 	
-
+	#searches a potion list for existing results
+	def postion_list_search(pl, i1, i2):
+		for po in pl.get_potions():
+			knownIngredients = po.get_ingredients()
+			if i1 in knownIngredients and i2 in knownIngredients: 
+				print('###Known Potion###')
+				print(po.to_string())
+				return True
+			else:
+				return False
+	
 	#Takes 2 Alchemicals and sees if they make a Color together
 	#Returns the Alchemical Color and Sign 
 	def score_alchemicals(alchemical_one, alchemical_two):
